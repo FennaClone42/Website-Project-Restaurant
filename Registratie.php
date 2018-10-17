@@ -1,10 +1,11 @@
 <?php
 	
-	$usernameError = $passwordError = $emailError = $nameError = $adressError = $phoneError =
-	$zipError = $townError = ""; //Allereerst worden alle Error waarden geïnitialiseerd als 
-	//lege strings
-	$username = $pass1 = $pass2 = $email = $name= $adress = $phone = $zip
-	= $town = ""; // lege waardes worden geïnitialiseerd om eerder ingevulde waarden te onthouden
+	$usernameError = $passwordError = $emailError = $nameError = $scndnameError = $adressError 
+	= $adressnmbrError = $phoneError = $zipError = $townError = ""; //Allereerst worden alle 
+	//Error waarden geïnitialiseerd als lege strings
+	$username = $pass1 = $pass2 = $email = $name = $scndname = $adress = $adressnmbr = $phone = 
+	$zip = $town = ""; // lege waardes worden geïnitialiseerd om eerder ingevulde waarden te 
+	//onthouden
 	
 	/* Alles na de volgende if statement moet boven de form staan, zodat als er errors voorkomen
 	nadat er op de submit knop is gedrukt de errors een bijpassende waarde krijgen voordat
@@ -29,7 +30,9 @@
 		}
 		$email = test_input($_POST['Email']);
 		$name = test_input($_POST['Name']);
+		$scndname = test_input($_POST['ScndName']);
 		$adress = test_input($_POST['Adress']);
+		$adressnmbr = test_input($_POST['Adressnmbr']);
 		if (!empty($_POST['Phone']))
 		{ // als er iets is ingevuld in het telefoon veld:
 			$phone = test_input($_POST['Phone']);
@@ -53,7 +56,19 @@
 		}
 		if (!preg_match("/^[a-zA-Z ]*$/",$name))
 		{ //checkt of de naam alleen spaties en letters en - bevat
-			$nameError = " Ongeldige naam";
+			$nameError = " Ongeldige voornaam";
+		}
+		if (!preg_match("/^[a-zA-Z ]*$/",$scndname))
+		{ // det hetzelfde voor de achternaam
+			$scndnameError = "Ongeldige achternaam";
+		}
+		if (!preg_match("/^[a-zA-Z ]*$/",$adress))
+		{ // zelfde preg match asl voor naam maar dan voor adress
+			$adressError = "Ongeldige straatnaam";
+		}
+		if (!preg_match("/^[0-9a-zA-Z -]*$/",$adressnmbr)) 
+		{ //preg match die er op checkt of het huisnummer de conventies volgt
+			$adressnmbrError = "Ongeldig huisnummer";
 		}
 		if (!preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/",  $zip)) 
 		{ // als de postcode niet uit 4 cijfers en 2 letters bestaat
@@ -72,9 +87,11 @@
 ?>
 <form method = "post"> <!-- in HTML wordt een form geïnitialiseerd die de waardes door post 
 zodat ze elders in de code weer aangeroepen kunnen worden -->
+<fieldset style = "width: 1px"><!-- zorgt voor een randje om het formulier heen, de style zorgt 
+dat het randje binnen blijft -->
+<legend><h2 align = "left"><strong>Registreren</strong></h2></legend><!--text bovenaan het veld -->
 <strong> Velden met een * zijn verplicht </strong> <!--dikgedrukte tekst bovenaan het formulier-->
 <br><br> <!-- 2 nieuwe regels -->
-<fieldset><!-- zorgt voor een randje om het formulier heen -->
 <table><!-- een html table wordt hier geïnitialiseerd zodat alles netjes op zijn plaats komt-->
 <tr> <!-- nieuwe tabel kolom-->
 <td align = "left">Gebruikersnaam*</td>
@@ -82,7 +99,8 @@ zodat ze elders in de code weer aangeroepen kunnen worden -->
 linkerkant van het scherm blijft-->
 </tr><tr><!-- eindig vorige kolom, begin nieuwe kolom -->
 <td align = "left"><input type = "text" name = "Username" value = "<?php echo $username; ?>" 
- required> <?php echo $usernameError; ?></td>
+ required></td>
+ </tr><tr><td><?php echo $usernameError; ?></td>
 <!--Input veld waar de bezoeker een gebruikernaam kan intypen, alweer left aligned. Hij wordt 
 opgeslagen onder de naam Username zodat hij op die manier ook weer aan te roepen is. Na het veld 
 wordt de $usernameError in php ge-echod zodat als er een foutmeldig is deze zichbaar is naast 
@@ -90,48 +108,57 @@ het veld, de required paramater maakt het een verplicht veld. Tenslotte geeft de
 dit veld een waarde als het eerder was ingevuld, hetzelfde is herhaald voor alle velden -->
 </tr><tr>
 <td align = "left">Wachtwoord*</td>
+<td align = "left">Wachtwoord herhalen*</td>
 </tr><tr>
 <td align = "left"><input type = "password" name = "Password1" 
 value = "<?php echo $pass1; ?>" required></td>
 <!-- een wachtwoord veld waar gebruikers niet kunnen zien wat ze typen (omdat het puntjes word) -->
-</tr><tr>
-<td align = "left">Wachtwoord herhalen*</td>
-</tr><tr>
 <td align = "left"><input type = "password" name = "Password2" 
-value = "<?php echo $pass2; ?>" required><?php echo $passwordError; ?></td>
+value = "<?php echo $pass2; ?>" required></td>
+</tr><tr>
+<td><?php echo $passwordError; ?></td>
 <!-- 2de wachtwoord veld om zeker te weten dat de gebruiker zijn of haar wachtwoord wel goed 
-heeft getypt, hier komt ook de error echo-->
+heeft getypt, onder beide velden komt de error echo-->
 </tr><tr>
 <td align = "left">E-mail*</td>
 </tr><tr>
-<td align="left"><input type = "text" name = "Email" value = "<?php echo $email; ?>" required>
-<?php echo $emailError; ?></td>
+<td align="left"><input type = "text" name = "Email" value = "<?php echo $email; ?>" required></td>
 </tr><tr>
-<td align = "left">Naam*</td>
+<td><?php echo $emailError; ?></td>
 </tr><tr>
-<td align="left"><input type = "text" name = "Name" value = "<?php echo $name; ?>" required>
-<?php echo $nameError; ?></td>
+<td align = "left">Voornaam*</td>
+<td align = "left">Achternaam*</td>
 </tr><tr>
-<td align = "left">Adres*</td>
+<td align="left"><input type = "text" name = "Name" value = "<?php echo $name; ?>" required></td>
+<td align="left"><input type = "text" name = "ScndName" value = "<?php echo $scndname; ?>" required>
+</td>
+</tr><tr>
+<td><?php echo $nameError; ?></td><td><?php echo $scndnameError; ?></td>
+</tr><tr>
+<td align = "left">Straatnaam*</td>
+<td align = "left">Huisnummer*</td>
 </tr><tr>
 <td align="left"><input type = "text" name = "Adress" value = "<?php echo $adress; ?>" required>
-<?php echo $adressError; ?></td>
+</td>
+<td align="left"><input type = "text" name = "Adressnmbr" value = "<?php echo $adressnmbr; ?>" 
+required></td>
+</tr><tr>
+<td><?php echo $adressError; ?></td><td><?php echo $adressnmbrError; ?></td>
+</tr><tr>
+<td align = "left">Postcode*</td>
+<td align = "left">Woonplaats*</td>
+</tr><tr>
+<td align="left"><input type = "text" name = "Zip" value = "<?php echo $zip; ?>" required></td>
+<td align="left"><input type = "text" name = "Town" value = "<?php echo $town; ?>" required></td>
+</tr><tr>
+<td><?php echo $zipError; ?></td><td><?php echo $townError; ?></td>
 </tr><tr>
 <td align = "left">Telefoon</td>
 </tr><tr>
-<td align="left"><input type = "text" name = "Phone" value = "<?php echo $phone; ?>">
-<?php echo $phoneError; ?></td>
+<td align="left"><input type = "text" name = "Phone" value = "<?php echo $phone; ?>"></td>
+</tr><tr>
+<td><?php echo $phoneError; ?></td>
 <!-- Telefoon is niet required, maar het veld wordt wel gecontroleerd als het wordt ingevuld-->
-</tr><tr>
-<td align = "left">Postcode*</td>
-</tr><tr>
-<td align="left"><input type = "text" name = "Zip" value = "<?php echo $zip; ?>" required>
-<?php echo $zipError; ?></td>
-</tr><tr>
-<td align = "left">Woonplaats*</td>
-</tr><tr>
-<td align="left"><input type = "text" name = "Town" value = "<?php echo $town; ?>" required>
-<?php echo $townError; ?></td>
 </tr><tr><td><br></td></tr><tr><!-- extra lege lijn-->
 <td align = "left"><input type = "submit" name = "Button" value = "Account Maken"></td>
 <!-- Maakt een submit knop aan het einde om alle data door te geven -->
@@ -172,22 +199,41 @@ heeft getypt, hier komt ook de error echo-->
 		&& $adressError == "" && $phoneError == "" && $zipError == "" && $townError == "")
 		{ // en als er geen error messages zijn
 			//DATABASE LINK HIER
-			echo "username = $username";
-			echo "<br>";
-			echo "pass = $password";
-			echo "<br>";
-			echo "email = $email";
-			echo "<br>";
-			echo "naam = $name";
-			echo "<br>";
-			echo "adress = $adress";
-			echo "<br>";
-			echo "phone = $phone";
-			echo "<br>";
-			echo "postcode = $zip";
-			echo "<br>";
-			echo "town = $town";
-			echo "<br>";
+			$name = $name . " " . $scndname;
+			$adress = $adress . " " . $adressnmbr;
+			// naam en adress worden tot twee eenheden samengevoegd
+			// echo "username = $username";
+			// echo "<br>";
+			// echo "pass = $password";
+			// echo "<br>";
+			// echo "email = $email";
+			// echo "<br>";
+			// echo "naam = $name";
+			// echo "<br>";
+			// echo "adress = $adress";
+			// echo "<br>";
+			// echo "phone = $phone";
+			// echo "<br>";
+			// echo "postcode = $zip";
+			// echo "<br>";
+			// echo "town = $town";
+			// echo "<br>";
+			include("Datalink.php"); // connectie met de db wordt geopend
+			if ($phone != "")
+			{ // als telefoon is ingevuld
+				$query = "INSERT INTO gebruiker VALUES ('$username', '$password','$email','$name',
+				'$adress','$phone','$zip','$town'");
+			}  // dan komt alles in de db
+			else
+			{
+				$query = "INSERT INTO gebruiker VALUES ('$username', '$password','$email','$name',
+				'$adress','$zip','$town'");
+			} //anders wordt tel er niet in gestopt, maar de rest wel
+			$result = mysqli_query($db,$query); // de query wordt echt uitgevoerd
+			if (!$result)
+			{ //als er op het einde iets misgaat met de gegevens aan de db toevoegen
+				die("Er ging op het einde iets mis met de gewenste gegevens toevoegen!")
+			}//dan wordt het script gestopt en wordt er een error message weergegeven
 		}
 	}
 	
