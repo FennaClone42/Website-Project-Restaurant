@@ -1,14 +1,42 @@
-<body bgcolor = "#E0FFFF">
+<<!DOCTYPE html>
+<html>
+<head>
+	<style>
+	.btn-group .button {
+	    background-color: #008CBA; /* Blauw */
+	    border: 1px solid blue;
+	    color: white;
+	    padding: 15px 32px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+	    cursor: pointer;
+	    float: center;
+	}
+	.btn-group .button:not(:last-child) {
+	    border-right: none; /* Prevent double borders */
+	}
+	.btn-group .button:hover {
+	    background-color: #555555;
+	}
+	</style>
+</head>
+<center><h1>Administrator pagina<center><br />
 
-<?php session_start(); // sessie beginnen
-if (isset($_SESSION["gebruiker"])){
-echo("<h2> Welkom " . $_SESSION["gebruiker"] ." </h2>");
-echo ("U bent nu in het beveiligde gedeelte van de ADMIN beland.");
-echo("<br>De ze link kan gebruikt worden om <a href=\"logout.php\"> uit te loggen</a><br>");
-}
+<body>
+	<div class="btn-group">
+<tr>
+<input type="button" class= "button" onclick="location.href='soorten.php';" value="Pizzalijst" />
+<input type="button" class= "button" onclick="location.href='gebruikers.php';" value="Gebruikergegevens" />
+</tr>
+</div>
+<?php
 
-else{
-	echo("U hebt zich nog niet aangemeld;<br>u kunt zich <a 	href=\"frm_registreer.php\">hier registreren</a><br> ");
-  echo("U hebt zich nog niet aangemeld;<br>u kunt hier proberen <a 	href=\"frm_login.php\">opnieuw in te loggen</a>");
-  	}
-    ?>
+
+?>
+
+</body>
+
+</head>
+</html>
