@@ -199,9 +199,9 @@ required></td>
 		&& $adressError == "" && $phoneError == "" && $zipError == "" && $townError == "")
 		{ // en als er geen error messages zijn
 			//DATABASE LINK HIER
-			$name = $name . " " . $scndname;
-			$adress = $adress . " " . $adressnmbr;
-			// naam en adress worden tot twee eenheden samengevoegd
+			$name = $name . " " . $scndname; 
+			// voor en achternaam worden samengevoegd tot 1 naam
+			
 			// echo "username = $username";
 			// echo "<br>";
 			// echo "pass = $password";
@@ -221,19 +221,34 @@ required></td>
 			include("Datalink.php"); // connectie met de db wordt geopend
 			if ($phone != "")
 			{ // als telefoon is ingevuld
-				$query = "INSERT INTO gebruiker VALUES ('$username', '$password','$email','$name',
-				'$adress','$phone','$zip','$town'");
-			}  // dan komt alles in de db
+				$query = "INSERT INTO Users(Username, Password, Name, Email, Phone, Postcode, 
+				Street_number, Street, Plaats, Admin) VALUES ('$username','$password','$name','$email',
+				'$phone','$zip','$adressnmbr','$adress','$town', '1')";
+			}  // dan komt alles in de db, incl een 1 voor admin, die aangeeft dat de gebruiker
+				// geen admin is
 			else
 			{
-				$query = "INSERT INTO gebruiker VALUES ('$username', '$password','$email','$name',
-				'$adress','$zip','$town'");
+				$query = "INSERT INTO Users(Username, Password, Name, Email, Postcode, 
+				Street_number, Street, Plaats, Admin) VALUES ('$username', '$password', '$name', 
+				'$email', '$zip', '$adressnmbr', '$adress', '$town', '1')";
 			} //anders wordt tel er niet in gestopt, maar de rest wel
+			echo "<br>";
+			echo $query;
+			echo "<br>";
+			echo "<br>";
 			$result = mysqli_query($db,$query); // de query wordt echt uitgevoerd
+			echo "<br>";
+			var_dump($result);
+			echo "<br>";
 			if (!$result)
 			{ //als er op het einde iets misgaat met de gegevens aan de db toevoegen
-				die("Er ging op het einde iets mis met de gewenste gegevens toevoegen!")
+				die("Er ging op het einde iets mis met de gewenste gegevens toevoegen!");
 			}//dan wordt het script gestopt en wordt er een error message weergegeven
+			else //als er niks mis ging en de gebruiker dus is toegevoegd tot de db
+			{
+				header('Location: registratiesuccess.php');
+				// dan gaan we op reis naar de registratie geslaagd pagina
+			}
 		}
 	}
 	
