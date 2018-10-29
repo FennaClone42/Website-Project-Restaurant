@@ -6,8 +6,8 @@
 <table>
 <form Action= "tba" method="POST">
 <tr>
-<td> Email:</td>
-<td><input type="email" name="email" required></td>
+<td> Username:</td>
+<td><input type="username" name="username" required></td>
 </tr>
 
 <tr>
