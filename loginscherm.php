@@ -3,11 +3,12 @@
 <title> Login Scherm </title>
 </head>
 <body>
+<center><h1>Login Scherm</h1><center>
 <table>
 <form Action= "tba" method="POST">
 <tr>
-<td> Username:</td>
-<td><input type="username" name="username" required></td>
+<td> Gebruikersnaam:</td>
+<td><input type="text" name="username" required></td>
 </tr>
 
 <tr>
@@ -19,9 +20,9 @@
 
 </form>
 
-<form action="registatiescherm.php">
+<form action="registratie.php">
 
-<td><input id="buttonlogin" type="submit" value="registreer"></td>
+<td><input id="buttonlogin" type="submit" value="Registreren"></td>
 
 </form>
 </table>
