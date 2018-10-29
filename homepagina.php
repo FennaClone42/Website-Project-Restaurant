@@ -36,7 +36,7 @@
 <body>
   <center><img src="pizza.jpg" alt="pizza" style="width:600px;height:300px"; align="middle";></center><br />
 <div class="btn-group">
-<input type="button" class= "button" onclick="location.href='inloggen.php';" value="Inloggen"/>
+<input type="button" class= "button" onclick="location.href='loginscherm.php';" value="Inloggen"/>
 <input type="button" class= "button" onclick="location.href='registratie.php';" value="Registreren"/>
 </div>
   <?php
