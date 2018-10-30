@@ -67,7 +67,7 @@
 				$query = "SELECT Admin FROM users WHERE Username = '$username'";
 				$result = mysqli_query($db, $query);
 				$adminrechten = mysqli_fetch_assoc($result);
-				$_SESSION['Admin'] = $adminrechten['Admin']
+				$_SESSION['Admin'] = $adminrechten['Admin'];
 				//hierboven vindt nog een 2de query plaats die de adminrechten van de
 				//gebruiker controleerd en deze in de Admin sessie variabele opslaat
 				header ('location: bestelpagina.php');
