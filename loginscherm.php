@@ -59,7 +59,7 @@
 		{
 			if ($loginAttempt["Password"] == $password) {
 				$_SESSION["Username"] = $username;
-				header ('location: bestelpagina.php');
+				header ('location: Bestelpagina.php');
 			}
 			else
 			{
