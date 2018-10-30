@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2018 at 12:55 AM
+-- Generation Time: Oct 31, 2018 at 12:32 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -31,10 +31,12 @@ USE `pizzaplace`;
 --
 
 DROP TABLE IF EXISTS `orders`;
-CREATE TABLE `orders` (
+CREATE TABLE IF NOT EXISTS `orders` (
   `Username` varchar(45) NOT NULL,
-  `OrderId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `OrderId` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`OrderId`),
+  KEY `fk_Users_has_Products_Users_idx` (`Username`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `orders`
@@ -50,11 +52,15 @@ INSERT INTO `orders` (`Username`, `OrderId`) VALUES
 --
 
 DROP TABLE IF EXISTS `order_items`;
-CREATE TABLE `order_items` (
-  `idOrder_Items` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `order_items` (
+  `idOrder_Items` int(11) NOT NULL AUTO_INCREMENT,
   `Products_id` int(11) NOT NULL,
-  `Orders_OrderId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Orders_OrderId` int(11) NOT NULL,
+  PRIMARY KEY (`idOrder_Items`),
+  UNIQUE KEY `idOrder_Items_UNIQUE` (`idOrder_Items`),
+  KEY `fk_Order_Items_Products1_idx` (`Products_id`),
+  KEY `fk_Order_Items_Orders1_idx` (`Orders_OrderId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `order_items`
@@ -72,11 +78,12 @@ INSERT INTO `order_items` (`idOrder_Items`, `Products_id`, `Orders_OrderId`) VAL
 --
 
 DROP TABLE IF EXISTS `products`;
-CREATE TABLE `products` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) NOT NULL,
-  `Price` decimal(8,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Price` decimal(8,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `products`
@@ -93,9 +100,12 @@ INSERT INTO `products` (`id`, `Name`, `Price`) VALUES
 --
 
 DROP TABLE IF EXISTS `product_toppings`;
-CREATE TABLE `product_toppings` (
+CREATE TABLE IF NOT EXISTS `product_toppings` (
   `Toppings_id` int(11) NOT NULL,
-  `Products_id` int(11) NOT NULL
+  `Products_id` int(11) NOT NULL,
+  PRIMARY KEY (`Toppings_id`,`Products_id`),
+  KEY `fk_Toppings_has_Products_Products1_idx` (`Products_id`),
+  KEY `fk_Toppings_has_Products_Toppings1_idx` (`Toppings_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -120,11 +130,12 @@ INSERT INTO `product_toppings` (`Toppings_id`, `Products_id`) VALUES
 --
 
 DROP TABLE IF EXISTS `toppings`;
-CREATE TABLE `toppings` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `toppings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) NOT NULL,
-  `Price` decimal(8,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Price` decimal(8,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `toppings`
@@ -145,97 +156,30 @@ INSERT INTO `toppings` (`id`, `Name`, `Price`) VALUES
 --
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `Username` varchar(45) NOT NULL,
   `Password` varchar(10) NOT NULL,
   `Name` text NOT NULL,
   `Email` varchar(45) NOT NULL,
   `Phone` int(11) DEFAULT NULL,
   `Postcode` varchar(6) NOT NULL,
-  `Street_number` int(11) NOT NULL,
+  `Street_number` varchar(45) NOT NULL,
   `Street` varchar(45) NOT NULL,
-  `Plaats` varchar(45) NOT NULL
+  `Plaats` varchar(45) NOT NULL,
+  `userrole` varchar(45) NOT NULL,
+  PRIMARY KEY (`Username`),
+  UNIQUE KEY `Username_UNIQUE` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`Username`, `Password`, `Name`, `Email`, `Phone`, `Postcode`, `Street_number`, `Street`, `Plaats`) VALUES
-('Ray', '1', 'Rachel Gardner', 'Rachergardner@tribal-bingo.com', 642864783, '9408LA', 42, 'Hoofdstraat', 'Groningen'),
-('Zack', '2', 'Isaac Foster', 'Isaacfoster@tribal-bingo.com', 641396187, '2348AZ', 54, 'Straatstraat', 'Groningen');
+INSERT INTO `users` (`Username`, `Password`, `Name`, `Email`, `Phone`, `Postcode`, `Street_number`, `Street`, `Plaats`, `userrole`) VALUES
+('Gray', '3', 'Priest Boiii', 'Priestboiii@tribal-bingo.com', 642864234, '3456FG', '75 drie hoog', 'Kerkstraat', 'Groningen', 'admin'),
+('Ray', '1', 'Rachel Gardner', 'Rachelgardner@tribal-bingo.com', 642864783, '9408LA', '42', 'Hoofdstraat', 'Groningen', 'customer'),
+('Zack', '2', 'Isaac Foster', 'Isaacfoster@tribal-bingo.com', 641396187, '2348AZ', '54', 'Straatstraat', 'Groningen', 'customer');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`OrderId`),
-  ADD KEY `fk_Users_has_Products_Users_idx` (`Username`);
-
---
--- Indexes for table `order_items`
---
-ALTER TABLE `order_items`
-  ADD PRIMARY KEY (`idOrder_Items`),
-  ADD UNIQUE KEY `idOrder_Items_UNIQUE` (`idOrder_Items`),
-  ADD KEY `fk_Order_Items_Products1_idx` (`Products_id`),
-  ADD KEY `fk_Order_Items_Orders1_idx` (`Orders_OrderId`);
-
---
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `product_toppings`
---
-ALTER TABLE `product_toppings`
-  ADD PRIMARY KEY (`Toppings_id`,`Products_id`),
-  ADD KEY `fk_Toppings_has_Products_Products1_idx` (`Products_id`),
-  ADD KEY `fk_Toppings_has_Products_Toppings1_idx` (`Toppings_id`);
-
---
--- Indexes for table `toppings`
---
-ALTER TABLE `toppings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`Username`),
-  ADD UNIQUE KEY `Username_UNIQUE` (`Username`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `orders`
---
-ALTER TABLE `orders`
-  MODIFY `OrderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `order_items`
---
-ALTER TABLE `order_items`
-  MODIFY `idOrder_Items` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `toppings`
---
-ALTER TABLE `toppings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
 --
