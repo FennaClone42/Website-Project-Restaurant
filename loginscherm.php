@@ -18,7 +18,7 @@
 
 <tr>
 <td> Wachtwoord:</td>
-<td><input type="password" name="wachtwoord" required></td>
+<td><input type="password" name="password" required></td>
 <tr>
 <td><input id="buttonlogin" type="submit" name="login" value="Log in"></td>
 
@@ -48,17 +48,23 @@
 	{
 		$username = test_input($_POST['username']);
 		$password = test_input($_POST['password']);
-		$query = "SELECT Username FROM users WHERE Password = '$password'";
+		$query = "SELECT Password FROM users WHERE Username = '$username'";
 		$result = mysqli_query($db, $query);
-		if (!$result)
+		$loginAttempt = mysqli_fetch_assoc($result);
+		if (!$loginAttempt)
 		{
-			Echo "Gebruikersnaam en wachtwoord kwamen niet overeen.";
+			echo "Deze gebruikersnaam is helaas ongeldig.";
 		}
 		else 
 		{
-			$_SESSION["Username"] = $username;
-			//header ('location: bestelpagina.php');
-			echo "YAY ALLES WERKT";
+			if ($loginAttempt["Password"] == $password) {
+				$_SESSION["Username"] = $username;
+				header ('location: bestelpagina.php');
+			}
+			else
+			{
+				echo "Dat is niet het juiste wachtwoord bij die gebruikersnaam.";
+			}
 		}
 	}
 	
