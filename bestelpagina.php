@@ -13,7 +13,7 @@
         float: center; /*Positie buttons in  het midden van de pagina*/
     }
     .btn-group .button:not(:last-child) {
-        border-right: none; /* Hiermee voorkom je dubbele borders*/
+        border-right: none; /* Hiermee voorkom je dubbele randen*/
     }
     .btn-group .button:hover {
         background-color: #555555; /*Indien je met de muis over de knop beweegt wordt deze de kleur grijs*/
