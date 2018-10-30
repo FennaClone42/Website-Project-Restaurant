@@ -1,7 +1,7 @@
 <?php
 	
 	session_start();
-	
+	//sessie wordt geintinaliseerd, hieronder wordt een simpele form gemaakt
 ?>
 <html>
 <head>
@@ -41,29 +41,42 @@
 		$input = trim($input);
 		$input = stripslashes($input);
 		return $input;
-	}
+	} // functie om de input veilig te maken
 	
-	include('datalink.php');
-	if (isset($_POST["login"]))
+	include('datalink.php'); //verbinding met de DB
+	if (isset($_POST["login"])) // Als op login wordt gedrukt:
 	{
 		$username = test_input($_POST['username']);
-		$password = test_input($_POST['password']);
+		$password = test_input($_POST['password']); // username en pass worden opgehaald
 		$query = "SELECT Password FROM users WHERE Username = '$username'";
-		$result = mysqli_query($db, $query);
-		$loginAttempt = mysqli_fetch_assoc($result);
+		//selecteerd het wachtwoord die bij de ingevoerde gebruikersnaam hoort
+		$result = mysqli_query($db, $query); // haalt het resultaat op
+		$loginAttempt = mysqli_fetch_assoc($result); 
+		//zet het resultaat in een array die $Loginattempt heet
 		if (!$loginAttempt)
-		{
+		{ //als de array leeg is (en dus een ongeldige gebruikersnaam is ingevuld)
 			echo "Deze gebruikersnaam is helaas ongeldig.";
+			die; //dan wordt een foutmelding weergegeven en stopt het script
 		}
-		else 
+		else //als het array niet leeg is en er dus een gedlige gebruikersnaam is ingevuld:
 		{
-			if ($loginAttempt["Password"] == $password) {
-				$_SESSION["Username"] = $username;
-				header ('location: Bestelpagina.php');
+			if ($loginAttempt["Password"] == $password) 
+			{ // als het ingevulde wachtwoord bij de gebruikersnaam hoort:
+				$_SESSION["Username"] = $username; 
+				//dan wordt de gebruikersnaam in een sessie opgeslagen
+				$query = "SELECT Admin FROM users WHERE Username = '$username'";
+				$result = mysqli_query($db, $query);
+				$adminrechten = mysqli_fetch_assoc($result);
+				$_SESSION['Admin'] = $adminrechten['Admin']
+				//hierboven vindt nog een 2de query plaats die de adminrechten van de
+				//gebruiker controleerd en deze in de Admin sessie variabele opslaat
+				header ('location: bestelpagina.php');
+				// daarna gaat de gebruiker naar de besteplagina
 			}
 			else
-			{
+			{ //als het wachtwoord verkeerd is
 				echo "Dat is niet het juiste wachtwoord bij die gebruikersnaam.";
+				die; //dan wordt een foutmelding weergegeven en stopt het script
 			}
 		}
 	}
