@@ -99,22 +99,24 @@ dat het randje binnen blijft -->
 linkerkant van het scherm blijft-->
 </tr><tr><!-- eindig vorige kolom, begin nieuwe kolom -->
 <td align = "left"><input type = "text" name = "Username" value = "<?php echo $username; ?>" 
- required></td>
+ maxlength = "45" required></td>
  </tr><tr><td><?php echo $usernameError; ?></td>
 <!--Input veld waar de bezoeker een gebruikernaam kan intypen, alweer left aligned. Hij wordt 
 opgeslagen onder de naam Username zodat hij op die manier ook weer aan te roepen is. Na het veld 
 wordt de $usernameError in php ge-echod zodat als er een foutmeldig is deze zichbaar is naast 
-het veld, de required paramater maakt het een verplicht veld. Tenslotte geeft de $username value
-dit veld een waarde als het eerder was ingevuld, hetzelfde is herhaald voor alle velden -->
+het veld, de maxlenght geeft het maximale aantal tekens weer, zodat het netjes in de database 
+past, en de required paramater maakt het een verplicht veld.
+Tenslotte geeft de $username value dit veld een waarde als het eerder was ingevuld, 
+hetzelfde is herhaald voor alle velden -->
 </tr><tr>
 <td align = "left">Wachtwoord*</td>
 <td align = "left">Wachtwoord herhalen*</td>
 </tr><tr>
 <td align = "left"><input type = "password" name = "Password1" 
-value = "<?php echo $pass1; ?>" required></td>
+value = "<?php echo $pass1; ?>" maxlength = "10" required></td>
 <!-- een wachtwoord veld waar gebruikers niet kunnen zien wat ze typen (omdat het puntjes word) -->
 <td align = "left"><input type = "password" name = "Password2" 
-value = "<?php echo $pass2; ?>" required></td>
+value = "<?php echo $pass2; ?>" maxlength = "10" required></td>
 </tr><tr>
 <td><?php echo $passwordError; ?></td>
 <!-- 2de wachtwoord veld om zeker te weten dat de gebruiker zijn of haar wachtwoord wel goed 
@@ -122,7 +124,8 @@ heeft getypt, onder beide velden komt de error echo-->
 </tr><tr>
 <td align = "left">E-mail*</td>
 </tr><tr>
-<td align="left"><input type = "text" name = "Email" value = "<?php echo $email; ?>" required></td>
+<td align="left"><input type = "text" name = "Email" value = "<?php echo $email; ?>" 
+maxlength = "45" required></td>
 </tr><tr>
 <td><?php echo $emailError; ?></td>
 </tr><tr>
@@ -138,7 +141,8 @@ heeft getypt, onder beide velden komt de error echo-->
 <td align = "left">Straatnaam*</td>
 <td align = "left">Huisnummer*</td>
 </tr><tr>
-<td align="left"><input type = "text" name = "Adress" value = "<?php echo $adress; ?>" required>
+<td align="left"><input type = "text" name = "Adress" value = "<?php echo $adress; ?>" 
+maxlength = "45" required>
 </td>
 <td align="left"><input type = "text" name = "Adressnmbr" value = "<?php echo $adressnmbr; ?>" 
 required></td>
@@ -149,7 +153,8 @@ required></td>
 <td align = "left">Woonplaats*</td>
 </tr><tr>
 <td align="left"><input type = "text" name = "Zip" value = "<?php echo $zip; ?>" required></td>
-<td align="left"><input type = "text" name = "Town" value = "<?php echo $town; ?>" required></td>
+<td align="left"><input type = "text" name = "Town" value = "<?php echo $town; ?>" 
+maxlength = "10" required></td>
 </tr><tr>
 <td><?php echo $zipError; ?></td><td><?php echo $townError; ?></td>
 </tr><tr>
@@ -202,44 +207,22 @@ required></td>
 			$name = $name . " " . $scndname; 
 			// voor en achternaam worden samengevoegd tot 1 naam
 			
-			// echo "username = $username";
-			// echo "<br>";
-			// echo "pass = $password";
-			// echo "<br>";
-			// echo "email = $email";
-			// echo "<br>";
-			// echo "naam = $name";
-			// echo "<br>";
-			// echo "adress = $adress";
-			// echo "<br>";
-			// echo "phone = $phone";
-			// echo "<br>";
-			// echo "postcode = $zip";
-			// echo "<br>";
-			// echo "town = $town";
-			// echo "<br>";
 			include("Datalink.php"); // connectie met de db wordt geopend
 			if ($phone != "")
 			{ // als telefoon is ingevuld
 				$query = "INSERT INTO Users(Username, Password, Name, Email, Phone, Postcode, 
-				Street_number, Street, Plaats, Admin) VALUES ('$username','$password','$name','$email',
-				'$phone','$zip','$adressnmbr','$adress','$town', '1')";
-			}  // dan komt alles in de db, incl een 1 voor admin, die aangeeft dat de gebruiker
-				// geen admin is
+				Street_number, Street, Plaats, userrole) VALUES ('$username','$password','$name','$email',
+				'$phone','$zip','$adressnmbr','$adress','$town', 'customer')";
+			}  	// dan komt alles in de db, incl een customer voor userrole, die aangeeft dat 
+				// de gebruiker geen admin is
 			else
 			{
 				$query = "INSERT INTO Users(Username, Password, Name, Email, Postcode, 
-				Street_number, Street, Plaats, Admin) VALUES ('$username', '$password', '$name', 
-				'$email', '$zip', '$adressnmbr', '$adress', '$town', '1')";
+				Street_number, Street, Plaats, userrole) VALUES ('$username', '$password', '$name', 
+				'$email', '$zip', '$adressnmbr', '$adress', '$town' 'customer')";
 			} //anders wordt tel er niet in gestopt, maar de rest wel
-			echo "<br>";
-			echo $query;
-			echo "<br>";
-			echo "<br>";
+
 			$result = mysqli_query($db,$query); // de query wordt echt uitgevoerd
-			echo "<br>";
-			var_dump($result);
-			echo "<br>";
 			if (!$result)
 			{ //als er op het einde iets misgaat met de gegevens aan de db toevoegen
 				die("Er ging op het einde iets mis met de gewenste gegevens toevoegen!");
