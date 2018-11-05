@@ -50,14 +50,18 @@
 		echo "<td>Woonplaats: </td>";
 		echo "<td>".$profiel['Plaats']."</td>";
 		echo "</tr>";
-		echo "<form method = 'post' action = 'Profiel bewerken.php'>"; //opent een post form waar als je op submit drukt je naar de profiel bewerk pagina gaat
+		//VERANDER DE NAAM ONDER ACTION ALS JE PROFIEL BEWERK PAGINA ANDERS HEET
+		echo "<form method = 'post' action = 'ProfielBewerken.php'>"; //opent een post form waar als je op submit drukt je naar de profiel bewerk pagina gaat
 		echo "</table><table>";//tabel wordt afgesloten en hergeopend zodat de knoppen niet de tabel randjes hebben
 		echo "<tr>"; //nieuwe tabel rij
 		echo "<td><input type = 'submit' value = 'Profiel Bewerken'></td>"; //submit knopje waar Profiel Bewerken op staat
 		echo "<input type = 'hidden' value = '".$profiel['Username']."'>"; // een verbogen veld die de gebruiker niet ziet, deze stuurt de profiel naam waarde mee naar de account bewerken pagina zodat deze makkelijker geselecteerd kan worden
-		echo "</form><form method = 'post' action = 'Profiel verwijderen.php'>"; //oude form wordt afgesloten, nieuwe form wordt geopent waar je naar de profiel verwijderen pagina gaat als je op submit drukt
+		//VERANDER DE NAAM ONDER ACTION ALS JE PROFIEL VERWIJDEREN PAGINA ANDERS HEET
+		echo "</form><form method = 'post' action = 'ProfielDelete.php'>"; //oude form wordt afgesloten, nieuwe form wordt geopent waar je naar de profiel verwijderen pagina gaat als je op submit drukt
 		echo "<input type = 'hidden' value = '".$profiel['Username']."'>"; // zelfde hidden veld als hiervoor maar deze gaat naar de profiel berwijderen pagina
 		echo "<td><input type = 'submit' value = 'Profiel Verwijderen'></td>";//submit knopje waardoor je naar de profiel verwijderen pagina gaat
+		echo "</form><form method = 'post' action = 'Bestelpagina.php'>";
+		echo "<td><input type = 'submit' value = 'Terug naar Bestellen'></td>";
 		echo "</form>"; //form wordt afgesloten
 		echo "</table>"; //table wordt afgesloten
 		echo "</center></body>"; 
