@@ -51,7 +51,7 @@
 		echo "<td>".$profiel['Plaats']."</td>";
 		echo "</tr>";
 		//VERANDER DE NAAM ONDER ACTION ALS JE PROFIEL BEWERK PAGINA ANDERS HEET
-		echo "<form method = 'post' action = 'ProfielBewerken.php'>"; //opent een post form waar als je op submit drukt je naar de profiel bewerk pagina gaat
+		echo "<form method = 'post' action = 'editall.php'>"; //opent een post form waar als je op submit drukt je naar de profiel bewerk pagina gaat
 		echo "</table><table>";//tabel wordt afgesloten en hergeopend zodat de knoppen niet de tabel randjes hebben
 		echo "<tr>"; //nieuwe tabel rij
 		echo "<td><input type = 'submit' value = 'Profiel Bewerken'></td>"; //submit knopje waar Profiel Bewerken op staat

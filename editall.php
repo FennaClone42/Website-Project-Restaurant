@@ -13,7 +13,7 @@ $user = $_SESSION["Username"];
     <tr><td>Plaats:</td><td> <input type="text" name="plaats"></td></tr>
 </table><table>
     <td><input type="submit" name="submit" value="Verander"></td>
-    <td><a href="profielen.php"><input type = "button" name = 'cancel' value = 'Annuleren' ></td>
+    <td><a href="Profielen.php"><input type = "button" name = 'cancel' value = 'Annuleren' ></td>
     </table>
 </form>
 
@@ -23,6 +23,11 @@ $user = $_SESSION["Username"];
   if ($db->connect_error) {
      die("Connection failed: " . $db->connect_error);
   }
+  
+  
+  
+  
+  
  if (isset($_POST["submit"])) {
     $pass = $_POST['password'];
     $email = $_POST['email'];
@@ -39,7 +44,7 @@ $user = $_SESSION["Username"];
 
   if ($db->query($query) === TRUE) {
       echo "Uw informatie is bijgewerkt.";
-      header('location: profielen.php');
+      header('location: Profielen.php');
     } else {
         echo "Error: " . $query . "<br>" . $db->error;
     }
