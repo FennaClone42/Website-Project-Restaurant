@@ -1,6 +1,7 @@
 <?php
 
-// session_start();
+session_start();
+$user = $_SESSION["Username"];
 
   if (isset($_POST['submit'])){
     $pizza1 = $_POST['pizza1'];
@@ -9,7 +10,7 @@
 
 include 'database.php';
 // $query = "INSERT INTO orders(username, OrderID) VALUES $pizza1, $pizza2";
-$query2 = "SELECT postcode , Street_number , street , plaats FROM users;";
+$query2 = "SELECT `postcode` , `Street_number` , `street` , `plaats` FROM `users` WHERE `username` = '$user';";
 $result = mysqli_query($db, $query2);
     if (!$result) {
         die("Database query mislukt.");
