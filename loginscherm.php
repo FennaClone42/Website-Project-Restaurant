@@ -1,72 +1,84 @@
 <?php
 	
-	session_start(); //opent de sessie
+	session_start();
+	//sessie wordt geintinaliseerd, hieronder wordt een simpele form gemaakt
 ?>
 <html>
 <head>
-<title> Profielenpagina </title>
+<title> Login Scherm </title>
 </head>
 <body>
-<center><h1>Profiel </h1>
+<center><h1>Login Scherm</h1><center>
+<table>
+<form method="POST">
+<tr>
+<td> Gebruikersnaam:</td>
+<td><input type="text" name="username" required></td>
+</tr>
+
+<tr>
+<td> Wachtwoord:</td>
+<td><input type="password" name="password" required></td>
+<tr>
+<td><input id="buttonlogin" type="submit" name="login" value="Log in"></td>
+
+
+</form>
+
+<form action="registratie.php">
+
+<td><input id="buttonregister" type="submit" value="Registreren"></td>
+
+</form>
+</table>
+</body>
+</html>
 
 <?php
-	$user = $_SESSION["Username"]; //username wordt uit de sessie gehaald en in de $user variabele opgeslagen
-	include("Datalink.php"); //link met de db
-	$query = "SELECT * FROM Users WHERE Username = '$user'"; //selecteerd alle info uit de users kolom waar de gebruikersnaam die van de gebruiker is
-	$result = mysqli_query($db, $query); //voert de query uit als $result
-	if (!$result) { //als $result leeg is en de query dus mis ging:
-		echo "Er ging helaas iets mis tijdens de verbinding met onze database"; //dan is alleen deze error message zichtbaar
-	}
-
+	function test_input($input) 
+	{
+		$input = htmlspecialchars($input);
+		$input = trim($input);
+		$input = stripslashes($input);
+		return $input;
+	} // functie om de input veilig te maken
 	
-	while ($profiel = mysqli_fetch_assoc($result)) { //zolang er nog data is in de $result query (die hier opnieuw wordt opgeslagen als $profiel)
-		echo "<table border = 1>"; //tabel met randje
-		echo "<tr>"; //nieuwe tabel rij
-		echo "<td>Naam: </td>";
-		echo "<td>".$profiel['Name']."</td>"; //1 rij met eerst een cel met "Naam:" er in en een cel met de naam van de gebruiker, uit de DB gehaald
-		echo "</tr>"; //tabel rij wordt afgesloten
-		echo "<tr>"; //nieuwe tabel rij, vanaf dit punt wordt alles wat hierboven staat simpelweg herhaald, maar dan voor de andere waardes in de profiel DB
-		echo "<td>Profielnaam: </td>";
-		echo "<td>".$profiel['Username']."</td>";
-		echo "</tr>";
-		echo "<tr>"; 
-		echo "<td>Wachtwoord: </td>";
-		echo "<td>".$profiel['Password']."</td>"; //wachtwoord word weeregeven als sterretjes
-		echo "</tr>";
-		echo "<tr>"; 
-		echo "<td>E-mail: </td>";
-		echo "<td>".$profiel['Email']."</td>";
-		echo "</tr>";
-		echo "<tr>"; 
-		echo "<td>Adres: </td>";
-		echo "<td>".$profiel['Street'],' ', $profiel['Street_number']."</td>";
-		//voor adress worden staartnaam en huisnummer samen weergegeven, gescheiden door een spatie
-		echo "</tr>";
-		echo "<tr>"; 
-		echo "<td>Postcode: </td>";
-		echo "<td>".$profiel['Postcode']."</td>";
-		echo "</tr>";
-		echo "<tr>"; 
-		echo "<td>Woonplaats: </td>";
-		echo "<td>".$profiel['Plaats']."</td>";
-		echo "</tr>";
-		//VERANDER DE NAAM ONDER ACTION ALS JE PROFIEL BEWERK PAGINA ANDERS HEET
-		echo "<form method = 'post' action = 'ProfielBewerken.php'>"; //opent een post form waar als je op submit drukt je naar de profiel bewerk pagina gaat
-		echo "</table><table>";//tabel wordt afgesloten en hergeopend zodat de knoppen niet de tabel randjes hebben
-		echo "<tr>"; //nieuwe tabel rij
-		echo "<td><input type = 'submit' value = 'Profiel Bewerken'></td>"; //submit knopje waar Profiel Bewerken op staat
-		echo "<input type = 'hidden' value = '".$profiel['Username']."'>"; // een verbogen veld die de gebruiker niet ziet, deze stuurt de profiel naam waarde mee naar de account bewerken pagina zodat deze makkelijker geselecteerd kan worden
-		//VERANDER DE NAAM ONDER ACTION ALS JE PROFIEL VERWIJDEREN PAGINA ANDERS HEET
-		echo "</form><form method = 'post' action = 'ProfielDelete.php'>"; //oude form wordt afgesloten, nieuwe form wordt geopent waar je naar de profiel verwijderen pagina gaat als je op submit drukt
-		echo "<input type = 'hidden' value = '".$profiel['Username']."'>"; // zelfde hidden veld als hiervoor maar deze gaat naar de profiel berwijderen pagina
-		echo "<td><input type = 'submit' value = 'Profiel Verwijderen'></td>";//submit knopje waardoor je naar de profiel verwijderen pagina gaat
-		echo "</form><form method = 'post' action = 'Bestelpagina.php'>";
-		echo "<td><input type = 'submit' value = 'Terug naar Bestellen'></td>";
-		echo "</form>"; //form wordt afgesloten
-		echo "</table>"; //table wordt afgesloten
-		echo "</center></body>"; 
-		//html tags worden hier pas afgesloten zodat alles gecentreerd wordt
+	include('datalink.php'); //verbinding met de DB
+	if (isset($_POST["login"])) // Als op login wordt gedrukt:
+	{
+		$username = test_input($_POST['username']);
+		$password = test_input($_POST['password']); // username en pass worden opgehaald
+		$query = "SELECT Password FROM users WHERE Username = '$username'";
+		//selecteerd het wachtwoord die bij de ingevoerde gebruikersnaam hoort
+		$result = mysqli_query($db, $query); // haalt het resultaat op
+		$loginAttempt = mysqli_fetch_assoc($result); 
+		//zet het resultaat in een array die $Loginattempt heet
+		if (!$loginAttempt)
+		{ //als de array leeg is (en dus een ongeldige gebruikersnaam is ingevuld)
+			echo "Deze gebruikersnaam is helaas ongeldig.";
+			die; //dan wordt een foutmelding weergegeven en stopt het script
+		}
+		else //als het array niet leeg is en er dus een gedlige gebruikersnaam is ingevuld:
+		{
+			if ($loginAttempt["Password"] == $password) 
+			{ // als het ingevulde wachtwoord bij de gebruikersnaam hoort:
+				$_SESSION["Username"] = $username; 
+				//dan wordt de gebruikersnaam in een sessie opgeslagen
+				$query = "SELECT userrole FROM users WHERE Username = '$username'";
+				$result = mysqli_query($db, $query);
+				$adminrechten = mysqli_fetch_assoc($result);
+				$_SESSION['Admin'] = $adminrechten['userrole'];
+				//hierboven vindt nog een 2de query plaats die de adminrechten van de
+				//gebruiker controleerd en deze in de Admin sessie variabele opslaat
+				header ('location: Bestelpagina.php');
+				// daarna gaat de gebruiker naar de besteplagina
+			}
+			else
+			{ //als het wachtwoord verkeerd is
+				echo "Dat is niet het juiste wachtwoord bij die gebruikersnaam.";
+				die; //dan wordt een foutmelding weergegeven en stopt het script
+			}
+		}
 	}
-
-
+	
 ?>
