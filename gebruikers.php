@@ -19,7 +19,7 @@ else{
 		<center><h2>Overzicht klanten</h2><center>
 		</tr>
 		<tr> <th>Gebruikersnaam</th><th>Klantnaam</th><th>Email</th><th>Telefoonnummer</th><th>Postcode</th><th>Huisnummer</th>
-			<th>Straat</th><th>Plaats</th> </tr>
+			<th>Straat</th><th>Plaats</th><th>Actie</th> </tr>
 
 <?php
 		// 2. Uitvoeren query
@@ -37,6 +37,7 @@ else{
 		die
 		("Database query mislukt.");
 		}
+    echo "<form method='post'>";
 
 
 		// 3. Gegevens tonen
@@ -50,8 +51,13 @@ else{
 		echo "<td>" . $klant['Street_number'] . "</td>";
 		echo "<td>" . $klant['Street'] . "</td>";
 		echo "<td>" . $klant['Plaats'] . "</td>";
+    echo "<input type='hidden' name='klantnaam' value= " . $klant['Username'] . ">";
+    echo "<td><a href ='admindelete.php?"."user=".urlencode($klant['Username'])."'>Verwijderen</td>";
 		echo "</tr>";
 		}
 		echo "</table>";
-
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+  $klantnaam = $_POST['klantnaam'];
+  echo $klantnaam;
+}
 ?>
