@@ -8,14 +8,13 @@
 	echo "<input type='submit' name='cancel' value='Nee'>";
 	if(isset($_POST['delete']))
 	{
-		echo "HEY JE DRUKT ER OP";
-		// $sql= "DELETE FROM users WHERE Username = '$gebruikersnaam'";
-		// $result = mysqli_query($db, $sql);
-		// if (!$result) 
-		// {
-			// echo "Er ging iets fout met de db verbinden";
-			// die;
-		// }
+		$sql= "DELETE FROM users WHERE Username = '$gebruikersnaam'";
+		$result = mysqli_query($db, $sql);
+		if (!$result) 
+		{
+			echo "Er ging iets fout met de db verbinden";
+			die;
+		}
 	 }
 ?>
 </form>
