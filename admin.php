@@ -5,7 +5,7 @@
 session_start();
 $admin = $_SESSION["Admin"];
 if ($admin != 'admin') {
-	echo "Je bent geen admin rechten";
+	echo "Je hebt geen admin rechten";
 } else {
 	 ?>
 
