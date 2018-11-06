@@ -1,11 +1,20 @@
-<?php
-session_start();
-session_unset(); // alle variabelen vrijgeven
-session_destroy(); // sessie afsluiten
-?>
-<title>Uitloggen</title> 
-<h2>Uitloggen</h2>
-<hr>
-U bent nu uitgelogd. <br>
-De pagina <a href="admin.php">admin.php</a> is niet langer bereikbaar.<br>
-U kunt hier eventueel opnieuw <a href="frm_login.php">inloggen</a>.
+<!DOCTYPE html>
+<html>
+<head>
+  <h3>Weet u zeker dat u wilt uitloggen?</h3>
+</head>
+<body>
+  <?php session_start(); ?>
+  <form method = "post">
+  <input type = "submit" name = "logout" value = 'Ja, ik wil uitloggen'>
+  <a href="bestelpagina.php"><input type = "button" name = 'cancel' value = 'Ga terug naar Bestel Pagina' >
+  <?php
+  if (isset($_POST["logout"])){
+session_unset();
+session_destroy();
+header('location: homepagina.php');
+}
+ ?>
+</form>
+</body>
+</html>
