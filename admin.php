@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<?php
+session_start();
+$admin = $_SESSION["Admin"];
+if ($admin != 'admin') {
+	echo "Je bent geen admin rechten";
+} else {
+	 ?>
+
 	<style> /*Hiermee kan je div mee bewerken soort css*/
   .btn-group .button {
         background-color: #008CBA; /*Achtergrond kleur van button*/
@@ -32,6 +40,7 @@
 <input type="button" class= "button" onclick="location.href='gebruikers.php';" value="Gebruikergegevens" />
 <!-- Met deze knop wordt er informatie uit de database gehaald (Gebruikergegevens)-->
 </tr>
+<?php } ?>
 </div>
 </body>
 
