@@ -1,3 +1,7 @@
+<?php
+session_start();
+$admin = $_SESSION["Admin"];
+?>
 <DOCTYPE! html>
 <head>
   <style> /*Hiermee kan je div mee bewerken soort css*/
@@ -38,11 +42,14 @@
 
     <div class="btn-group"><br />
       <!-- Het aanmaken van een button groep die naast elkaar wordt weergegeven -->
+      <?php
+if ($admin == 'admin') {
+       ?>
 <input type="button" class= "button" onclick="location.href='admin.php';" value="Naar de Admin Pagina"/>
-<!-- Met deze knop wordt er doorverwezen naar de admin pagina -->
+<!-- Met deze knop wordt er doorverwezen naar de admin pagina --><?php } ?>
 <input type="button" class= "button" onclick="location.href='profielen.php';" value="Naar de Profielen Pagina"/>
 <!-- Met deze knop wordt er doorverwezen naar de profielen pagina -->
-  <input type="button" class= "button" onclick="logout.php';" value="Uitloggen"/>
+  <input type="button" class= "button" onclick="location.href='logout.php';" value="Uitloggen"/>
   <!-- Met deze knop wordt er doorverwezen naar de uitlog pagina -->
 </div>
 </body>
