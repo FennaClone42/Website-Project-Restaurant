@@ -12,7 +12,7 @@ else{
 <br />
 		<?php
 		// 1. Koppeling naar database regelen door code in te voegen
-		include 'database.php';
+		include 'datalink.php';
 		?>
 		<table border="1" width="50%" align="center">
 		<tr>
