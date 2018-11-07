@@ -30,10 +30,14 @@ $user = $_SESSION["Username"];
   
  if (isset($_POST["submit"])) {
     $pass = $_POST['password'];
+		$pass = test_input($_POST['Password1']);
     $email = $_POST['email'];
+	$email = test_input($_POST['Email']);
     $pos  = $_POST['postcode'];
     $sten  = $_POST['street_number'];
+	$sten = test_input($_POST['street_number']);
     $ste  = $_POST['street'];
+	$ste = test_input($_POST['street']);
     $plaats = $_POST['plaats'];
 
     $query = "UPDATE `users` SET `Password` = '$pass',
