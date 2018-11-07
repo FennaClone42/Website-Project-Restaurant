@@ -219,7 +219,7 @@ maxlength = "10" required></td>
 			{
 				$query = "INSERT INTO Users(Username, Password, Name, Email, Postcode, 
 				Street_number, Street, Plaats, userrole) VALUES ('$username', '$password', '$name', 
-				'$email', '$zip', '$adressnmbr', '$adress', '$town' 'customer')";
+				'$email', '$zip', '$adressnmbr', '$adress', '$town', 'customer')";
 			} //anders wordt tel er niet in gestopt, maar de rest wel
 
 			$result = mysqli_query($db,$query); // de query wordt echt uitgevoerd
