@@ -191,7 +191,7 @@ maxlength = "10" required></td>
 	} // deze functie zet de postcode om in 1 format door spaties weg te halen en alle letters in
 	//hoofdletters om te zetten, hierdoor kan er op 1 postcode format gecontroleerd te worden
 	function check_phone($input)
-	{
+	{	
 		$input = str_replace(" ","", $input);
 		$input = str_replace("-","", $input);
 		return $input;
