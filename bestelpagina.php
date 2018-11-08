@@ -1,5 +1,8 @@
 <?php
-session_start();
+if(!isset($_SESSION)) 
+{
+    session_start();
+} 
 if (isset($_SESSION["Admin"])) {
 	$admin = $_SESSION["Admin"];
 }
@@ -89,4 +92,4 @@ if ($admin == 'admin') {
 	}
 
 
-} ?>
+5} ?>
